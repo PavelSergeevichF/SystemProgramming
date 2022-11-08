@@ -11,6 +11,7 @@ public class Server
     private int reliableChannel;
     private bool isStarted = false;
     private byte error;
+    private Dictionary<int, string> data;
     List<int> connectionIDs = new List<int>();
     public void StartServer()
     {
@@ -49,13 +50,15 @@ public class Server
                     break;
                 case NetworkEventType.ConnectEvent:
                     connectionIDs.Add(connectionId);
-                    SendMessageToAll($"Player {connectionId} has connected.");
+                    string messag = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
+                    data.Add(connectionId, messag);
+                    SendMessageToAll($"Player {messag} has connected.");
                     Debug.Log($"Player {connectionId} has connected.");
                     break;
                 case NetworkEventType.DataEvent:
                     string message = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
                     SendMessageToAll($"Player {connectionId}: {message}");
-                    Debug.Log($"Player {connectionId}: {message}");
+                    Debug.Log($"Player {data[connectionId]}: {message}");
                     break;
                 case NetworkEventType.DisconnectEvent:
                     connectionIDs.Remove(connectionId);

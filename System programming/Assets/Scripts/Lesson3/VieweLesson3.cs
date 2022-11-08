@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class VieweLesson3 : MonoBehaviour
 {
-    [SerializeField] Text _text;
-    [SerializeField] InputField _field;
+    [SerializeField] private Text _text;
+    [SerializeField] private InputField _field;
     private ControllerLesson3 _controllerLesson3;
 
 
@@ -27,5 +27,6 @@ public class VieweLesson3 : MonoBehaviour
     public void ConnectClient() => _controllerLesson3.ConnectClient();
     public void DisconnectClient() => _controllerLesson3.DisconnectClient();
     public void Send() => _controllerLesson3.Send();
+    
 
 }

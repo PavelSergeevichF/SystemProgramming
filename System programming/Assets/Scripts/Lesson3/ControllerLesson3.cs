@@ -9,6 +9,7 @@ public class ControllerLesson3
     private InputField _field;
     private Server _server;
     private Client _client;
+    private string _name="";
 
     public ControllerLesson3(Text text, InputField field)
     {
@@ -25,7 +26,10 @@ public class ControllerLesson3
 
     public void StartServer()
     {
-        _server.StartServer();
+        if (_name.Length > 2)
+            _server.StartServer();
+        else
+            SetText("Введите имя");
     }   
     public void ShutDownServer()
     {
@@ -33,7 +37,14 @@ public class ControllerLesson3
     }
     public void ConnectClient()
     {
-        _client.Connect();
+        if (_name.Length < 2)
+        {
+            SetText($"Вы не ввели имя");
+        }
+        else 
+        {
+            _client.Connect(_name);
+        }
     }
     public void DisconnectClient()
     {
@@ -41,6 +52,35 @@ public class ControllerLesson3
     }
     public void Send()
     {
+        GetText();
         Debug.Log($"Send");
+    }
+    public void GetText(string inputText)
+    {
+    }
+    public void GetText()
+    {
+        if (_name.Length < 2)
+        {
+            if(_field.text.Length>2)
+            {
+                _name = _field.text;
+                SetText($"Ваше имя {_name}, Для смены имени введите: поменять имя");
+            }
+            else
+            {
+                SetText($"Имя слишком короткое");
+            }
+        }
+        if(_field.text== "поменять имя")
+        {
+            _name = "";
+            SetText("Введите имя");
+        }
+        _field.text = "";
+    }
+    public void SetText(string inputText)
+    {
+        _text.text = inputText;
     }
 }

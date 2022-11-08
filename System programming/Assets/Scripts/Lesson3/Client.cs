@@ -14,8 +14,10 @@ public class Client
     private int connectionID;
     private bool isConnected = false;
     private byte error;
-    public void Connect()
+    private string _nameClient = "";
+    public void Connect(string name)
     {
+        _nameClient=name;
         NetworkTransport.Init();
         ConnectionConfig cc = new ConnectionConfig();
         reliableChannel = cc.AddChannel(QosType.Reliable);
@@ -23,7 +25,10 @@ public class Client
         hostID = NetworkTransport.AddHost(topology, port);
         connectionID = NetworkTransport.Connect(hostID, "127.0.0.1", serverPort, 0, out error);
         if ((NetworkError)error == NetworkError.Ok)
+        {
             isConnected = true;
+            SendMessage(_nameClient);
+        }
         else
             Debug.Log((NetworkError)error);
 
